@@ -1,6 +1,7 @@
 use std::io;
 mod network;
 use network::NeuralNetwork;
+use network::mean_squared_error;
 
 fn read_input<T: std::str::FromStr>(msg: &str) -> T{
     loop {
@@ -35,7 +36,7 @@ fn main() {
         }
         
         if epoch % 1000 == 0 {
-            println!("Epoch {}: Loss = {}", epoch, loss / data.len() as f64);
+            println!("Epoch {}: Loss = {}", epoch, loss / data.len() as f32);
         }
     }
 }

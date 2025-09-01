@@ -4,11 +4,11 @@ fn sigmoid(x: f32) -> f32{
     1.0/(1.0 + (-x).exp())
 }
 
-pub fn mean_squared_error(predicted: &[f64], actual: &[f64]) -> f64 {
+pub fn mean_squared_error(predicted: &[f32], actual: &[f32]) -> f32 {
     predicted.iter()
         .zip(actual.iter())
         .map(|(p, a)| (p - a).powi(2))
-        .sum::<f64>() / predicted.len() as f64
+        .sum::<f32>() / predicted.len() as f32
 }
 
 pub struct Layer{
@@ -31,14 +31,14 @@ impl Layer{
 
     fn forward(&self, input: &[f32]) -> Vec<f32>{
         self.weights.iter().enumerate().map(|(i, neuron_weights)| {
-            let sum: f64 = neuron_weights.iter().zip(input.iter())
+            let sum: f32 = neuron_weights.iter().zip(input.iter())
                 .map(|(w, i)| w * i)
                 .sum();
             sigmoid(sum + self.biases[i])
         }).collect()
     }
 
-    fn backward(&mut self, input: &[f64], error: &[f64], learning_rate: f64) -> Vec<f64> {
+    fn backward(&mut self, input: &[f32], error: &[f32], learning_rate: f32) -> Vec<f32> {
         let mut input_error = vec![0.0; input.len()];
         
         for (i, neuron_weights) in self.weights.iter_mut().enumerate() {
@@ -64,11 +64,11 @@ impl NeuralNetwork {
             .collect();
         NeuralNetwork { layers }
     }
-    pub fn forward(&self, input: &[f64]) -> Vec<f64> {
+    pub fn forward(&self, input: &[f32]) -> Vec<f32> {
         self.layers.iter().fold(input.to_vec(), |acc, layer| layer.forward(&acc))
     }
 
-    pub fn backward(&mut self, inputs: &[f64], target: &[f64], learning_rate: f64) {
+    pub fn backward(&mut self, inputs: &[f32], target: &[f32], learning_rate: f32) {
         // Perform a forward pass and store intermediate layer inputs
         let mut layer_inputs = vec![inputs.to_vec()]; // Store inputs to each layer
         let mut current_input = inputs.to_vec();
