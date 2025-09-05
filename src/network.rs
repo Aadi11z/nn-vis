@@ -23,8 +23,8 @@ impl InputLayer{
 }
 
 pub struct Layer{
-    pub weights: Vec<Vec<f64>>,
-    pub biases: Vec<f64>,
+    pub weights: Vec<Vec<f64>>, // [1, 2, 3, 4, 5, 6]
+    pub biases: Vec<f64>, // [1, 2, 3]
 }
 
 impl Layer{
@@ -32,14 +32,14 @@ impl Layer{
         Layer { weights: Vec::new(), biases: Vec::new() }
     }
 
-    pub fn forward_prop(&mut self, inputs: &mut InputLayer) -> Vec<f64> {
+    pub fn forward_prop(&mut self, neuron_inputs: &mut InputLayer) -> Vec<f64> {
         let mut outputs = Vec::new();
 
-        for (neuron_weights, bias) in self.weights.iter().zip(self.biases.iter()) {
+        for (neuron_weights, neuron_bias) in self.weights.iter().zip(self.biases.iter()) {
             let h: f64 = neuron_weights.iter()
-                .zip(inputs.inputs.iter())
+                .zip(neuron_inputs.inputs.iter())
                 .map(|(w, i)| w * i)
-                .sum::<f64>() + bias;
+                .sum::<f64>() + neuron_bias;
             outputs.push(sigmoid(h));
         }
         outputs
@@ -51,29 +51,3 @@ impl Layer{
 
     }
 }
-
-// impl Neuron{
-//     pub fn new(input_size: u64) -> Self{
-//         let mut rng = rand::rng();
-//         let weights: Vec<f64> = (0..input_size)
-//             .map(|_| rng.random_range(-1.0..1.0))
-//             .collect();
-
-//         let bias = rng.random_range(-1.0..1.0);
-
-//         Self { weights, bias, output: 0.0 }
-//     }
-//     pub fn forward(&mut self, inputs: &[f64]) -> f64 {
-//         let h: f64 = self.weights.iter()
-//             .zip(inputs)
-//             .map(|(w, i)| w * i)
-//             .sum::<f64>() + self.bias;
-
-            
-//         self.output = sigmoid(h);
-//         self.output
-//     }
-//     pub fn backprop(&mut self) -> {
-
-//     }
-// }
