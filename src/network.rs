@@ -7,8 +7,6 @@
 //                  -> Hidden Neuron (h2) -> w6                     b3
 // Input (1) -> w4 /                  |                             
 //                                    b2                            
-use rand::Rng;
-
 fn sigmoid(x: f64) -> f64{
     1.0/(1.0 + (-x).exp())
 }
@@ -17,8 +15,8 @@ pub struct InputLayer{
 }
 
 impl InputLayer{
-    fn new() -> Self{ 
-        InputLayer { inputs: Vec::new() }
+    pub fn new(inputs: Vec<f64>) -> Self{ 
+        InputLayer { inputs }
     }
 }
 
@@ -28,12 +26,12 @@ pub struct Layer{
 }
 
 impl Layer{
-    pub fn new() -> Self{
-        Layer { weights: Vec::new(), biases: Vec::new() }
+    pub fn new(weights: Vec<Vec<f64>>, biases: Vec<f64>) -> Self{
+        Layer { weights, biases }
     }
 
     pub fn forward_prop(&mut self, neuron_inputs: &mut InputLayer) -> Vec<f64> {
-        let mut outputs = Vec::new();
+        let mut outputs= Vec::new();
 
         for (neuron_weights, neuron_bias) in self.weights.iter().zip(self.biases.iter()) {
             let h: f64 = neuron_weights.iter()
@@ -43,11 +41,5 @@ impl Layer{
             outputs.push(sigmoid(h));
         }
         outputs
-    }
-
-    
-
-    pub fn backward_prop(&mut self, inputs: &mut InputLayer) {
-
-    }
+    }    
 }
