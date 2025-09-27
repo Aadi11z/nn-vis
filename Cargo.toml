@@ -6,6 +6,7 @@ default-run = "nn-vis"
 
 [dependencies]
 rand = "0.9.2"
+tauri = "2.8.5"
 
 [[bin]]
 name = "nn-vis"
